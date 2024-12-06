@@ -46,35 +46,25 @@ public:
 
         return "Key not found!";
     }
-    // Metodo per cancellare una coppia dato il valore della chiave
+    // Metodo per cancellare una coppia chiave-valore
     void cancella(const std::string key) {
         int index = hashFunction(key);
 
-        while (table[index].isOccupied) {
-            if (table[index].key == key) {
-                table[index].isOccupied = false;
-                std::cout << "Key \"" << key << "\" deleted.\n";
-                return;
-            }
-            index = (index + 1) % TABLE_SIZE; // Probing lineare
+        if (table[index].isOccupied && table[index].key == key) {
+            table[index].isOccupied = false;
+            std::cout << "Coppia chiave-valore rimossa." << std::endl;
+        } else {
+            std::cout << "Chiave non trovata" << std::endl;
         }
-
-        std::cout << "Key \"" << key << "\" not found. Cannot delete.\n"; // Messaggio di errore
     }
 
     // Metodo per verificare se una chiave è presente nel dizionario
     bool appartiene(const std::string key) const {
         int index = hashFunction(key);
 
-        while (table[index].isOccupied) {
-            if (table[index].key == key) {
-                return true;
-            }
-            index = (index + 1) % TABLE_SIZE; // Probing lineare
-        }
-
-        return false;
+        return table[index].isOccupied && table[index].key == key;
     }
+
     // Metodo per stampare il contenuto del dizionario
     void stampa() const {
         for (int i = 0; i < TABLE_SIZE; ++i) {
